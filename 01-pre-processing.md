@@ -7,10 +7,11 @@
 * fastQC v0.11.9: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/
 * multiQC v1.8: https://multiqc.info/
 * Cutadapt v1.16: https://cutadapt.readthedocs.io/
-* pycoQC v2.5.0.21:
+* pycoQC v2.5.0.21: https://github.com/a-slide/pycoQC/
+* Porechop v0.2.4: https://github.com/rrwick/Porechop/
 * seqtk v1.3: https://github.com/lh3/seqtk/
 * METAXA v2.2: https://microbiology.se/software/metaxa2/
-* DIAMOND v0.9.25.126: https://github.com/bbuchfink/diamond
+* DIAMOND v0.9.25.126: https://github.com/bbuchfink/diamond/
 * KEGG database release 86: https://www.genome.jp/kegg/
   * The KEGG database is available for download for paying subscribers only :(
   * Alternatively, you can use their free-of-charge online tool BlastKOALA: https://www.kegg.jp/blastkoala/
@@ -147,7 +148,7 @@ while read PREFIX FTP_PATH; do
 done < <(cut -f 6,7,8 sample_metadata_nanopore.txt | sed '1d')
 ```
 
-### Trim adapters with porechop
+### Trim adapters with Porechop
 
 ```bash
 mkdir TRIMMED_NANOPORE
