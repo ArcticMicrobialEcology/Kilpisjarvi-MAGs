@@ -21,7 +21,7 @@ Principal Investigator
 3. [Metagenome assembling](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/03-assembling.md)
 4. [Binning of MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/04-MAG-binning.md)
 5. [Re-assembly of hybrid MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/05-hybrid-assembling.md)
-6. [Working with MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/06-working-with-MAGs.md).
+6. [Working with MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/06-working-with-MAGs.md)
 
 ## Before starting
 
