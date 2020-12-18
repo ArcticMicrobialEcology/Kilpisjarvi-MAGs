@@ -44,7 +44,7 @@ if [[ $ASSEMBLY == 'M11216_NANO' || $ASSEMBLY == 'M12208_NANO' ]]; then
 fi
 ```
 
-### Prepare files for ANVI’O
+### Prepare files for anvi'o
 
 ```bash
 # Build a contigs database
@@ -60,15 +60,15 @@ anvi-run-hmms --contigs-db BINNING/$ASSEMBLY/CONTIGS.db \
 anvi-run-scg-taxonomy --contigs-db BINNING/$ASSEMBLY/CONTIGS.db \
                       --num-threads $NTHREADS
 
-# Map reads with BOWTIE
+# Map reads with bowtie
 mkdir BINNING/$ASSEMBLY/MAPPING
 
 bowtie2-build BINNING/$ASSEMBLY/CONTIGS_2500nt.fa \
               BINNING/$ASSEMBLY/MAPPING/contigs
 
 for SAMPLE in $SAMPLES; do
-  bowtie2 -1 NANOPORE_TRIMMED/$SAMPLE.R1.fastq \
-          -2 NANOPORE_TRIMMED/$SAMPLE.R2.fastq \
+  bowtie2 -1 TRIMMED_ILLUMINA/$SAMPLE.R1.fastq \
+          -2 TRIMMED_ILLUMINA/$SAMPLE.R2.fastq \
           -S BINNING/$ASSEMBLY/MAPPING/$SAMPLE.sam \
           -x BINNING/$ASSEMBLY/MAPPING/contigs \
           --threads $NTHREADS \
@@ -104,7 +104,7 @@ if [[ $ASSEMBLY == 'M11216_NANO' || $ASSEMBLY == 'M12208_NANO' ]]; then
 fi
 ```
 
-### Bin MAGs with ANVI'O
+### Bin MAGs with anvi'o
 
 ```bash
 if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'FEN_CO' ]]; then

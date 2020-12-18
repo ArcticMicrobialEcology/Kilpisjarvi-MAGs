@@ -77,8 +77,8 @@ while read MAG ILLUMINA_PATH NANOPORE_PATH; do
   # Get mapped Illumina reads
   cat HYBRID_MAGS/$MAG/reads_nanopore_MAG.txt HYBRID_MAGS/$MAG/reads_illumina_MAG.txt | sort | uniq > HYBRID_MAGS/$MAG/illumina_reads.txt
 
-  seqtk subseq ILLUMINA_TRIMMED/$SAMPLE.R1.fastq HYBRID_MAGS/$MAG/illumina_reads.txt > HYBRID_MAGS/$MAG/illumina_reads_R1.fastq
-  seqtk subseq ILLUMINA_TRIMMED/$SAMPLE.R2.fastq HYBRID_MAGS/$MAG/illumina_reads.txt > HYBRID_MAGS/$MAG/illumina_reads_R2.fastq
+  seqtk subseq TRIMMED_ILLUMINA/$SAMPLE.R1.fastq HYBRID_MAGS/$MAG/illumina_reads.txt > HYBRID_MAGS/$MAG/illumina_reads_R1.fastq
+  seqtk subseq TRIMMED_ILLUMINA/$SAMPLE.R2.fastq HYBRID_MAGS/$MAG/illumina_reads.txt > HYBRID_MAGS/$MAG/illumina_reads_R2.fastq
 
   # Assemble with Unicycler
   unicycler --short1 HYBRID_MAGS/$MAG/illumina_reads_R1.fastq \
@@ -106,8 +106,8 @@ while read MAG ILLUMINA_PATH NANOPORE_PATH; do
   bowtie2-build HYBRID_MAGS/$MAG/assembly_clean.fasta \
                 HYBRID_MAGS/$MAG/MAPPING/contigs
 
-  bowtie2 -1 ILLUMINA_TRIMMED/$SAMPLE.R1.fastq \
-          -2 ILLUMINA_TRIMMED/$SAMPLE.R2.fastq \
+  bowtie2 -1 TRIMMED_ILLUMINA/$SAMPLE.R1.fastq \
+          -2 TRIMMED_ILLUMINA/$SAMPLE.R2.fastq \
           -S HYBRID_MAGS/$MAG/MAPPING/$SAMPLE.sam \
           -x HYBRID_MAGS/$MAG/MAPPING/contigs \
           --threads $NTHREADS \

@@ -46,6 +46,8 @@ Principal Investigator
 * metaQUAST v5.0.2: http://bioinf.spbau.ru/metaquast/
 * anvi’o v6.2: https://merenlab.org/software/anvio/
 * Unicycler v0.4.8: https://github.com/rrwick/Unicycler/
+* GTDB-Tk v1.3.0 and GTDB release 05-RS95: https://gtdb.ecogenomic.org/
+* KOfam database release 11/2020: ftp://ftp.genome.jp/pub/db/kofam/
 * R: https://www.r-project.org/
 * R packages
   * base v3.6.2
