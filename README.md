@@ -20,7 +20,8 @@ Principal Investigator
 2. [Read-based analyses](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/02-read-based.md)
 3. [Metagenome assembling](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/03-assembling.md)
 4. [Binning of MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/04-MAG-binning.md)
-5. [Working with MAGs]()
+5. [Re-assembly of hybrid MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/05-hybrid-assembling.md)
+6. [Working with MAGs]()
 
 ## Before starting
 
@@ -43,6 +44,7 @@ Principal Investigator
 * SAMtools v1.9: http://www.htslib.org/
 * pilon v1.23: https://github.com/broadinstitute/pilon/
 * metaQUAST v5.0.2: http://bioinf.spbau.ru/metaquast/
+* anvi’o v6.2: https://merenlab.org/software/anvio/
 * R: https://www.r-project.org/
 * R packages
   * base v3.6.2
