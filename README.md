@@ -1,5 +1,9 @@
 # Kilpisjarvi-MAGs
 
+Bioinformatics workflow used in the article:
+
+> Pessi I. S.,  Viitamäki S., Eronen-Rasimus E., Delmont T. O., Luoto M., Hultman J. 2020. Truncated denitrifiers dominate the denitrification pathway in tundra soil metagenomes. BioRxiv, doi: XXX.
+
 ## Contacts
 
 **Igor S Pessi**  
@@ -15,7 +19,7 @@ Principal Investigator
 1. [Pre-processing of raw data](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/01-pre-processing.md)
 2. [Read-based analyses](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/02-read-based.md)
 3. [Metagenome assembling](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/03-assembling.md)
-4. [Binning of MAGs]()
+4. [Binning of MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/04-MAG-binning.md)
 5. [Working with MAGs]()
 
 ## Before starting
@@ -33,6 +37,12 @@ Principal Investigator
 * KEGG database release 86: https://www.genome.jp/kegg/
   * The KEGG database is available for download for paying subscribers only :(
   * Alternatively, you can use their free-of-charge online tool BlastKOALA: https://www.kegg.jp/blastkoala/
+* MEGAHIT v1.1.1.2: https://github.com/voutcn/megahit/
+* Flye v2.7.1: https://github.com/fenderglass/Flye/
+* bowtie v2.3.4.2: http://bowtie-bio.sourceforge.net/bowtie2/
+* SAMtools v1.9: http://www.htslib.org/
+* pilon v1.23: https://github.com/broadinstitute/pilon/
+* metaQUAST v5.0.2: http://bioinf.spbau.ru/metaquast/
 * R: https://www.r-project.org/
 * R packages
   * base v3.6.2

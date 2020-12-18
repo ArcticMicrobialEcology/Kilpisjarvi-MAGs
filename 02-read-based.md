@@ -2,7 +2,7 @@
 
 ### Resample FASTQ files with seqtk
 
-Because there are large differences in library size, we are going to resample the dataset to 2,000,000 reads per sample
+Because there are large differences in library size, we are going to resample the dataset to 2,000,000 reads per sample.
 
 ```bash
 mkdir RESAMPLED_ILLUMINA
@@ -56,7 +56,7 @@ for SAMPLE in $SAMPLES; do
 done
 
 # Format KEGG db for use with DIAMOND
-KEGG_DB_DIR=/home/kegg/genes # Change here to the location of the PROKARYOTES.pep.gz file in your system
+KEGG_DB_DIR=$HOME/kegg/genes # Change here to the location of the PROKARYOTES.pep.gz file in your system
 
 diamond makedb -in $KEGG_DB_DIR/PROKARYOTES.pep.gz \
                -db $KEGG_DB_DIR/PROKARYOTES
@@ -78,4 +78,4 @@ done
 
 ## Next step
 
-Continue to [metagenome assembling](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/03-assembling.md) or to the [read-based R analyses](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/02-read-based.R)
+Continue to [metagenome assembling](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/03-assembling.md) or to the [read-based R analyses](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/02-read-based.R).
