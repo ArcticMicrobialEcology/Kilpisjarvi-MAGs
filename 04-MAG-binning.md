@@ -69,7 +69,7 @@ bowtie2-build BINNING/$ASSEMBLY/CONTIGS_2500nt.fa \
 for SAMPLE in $SAMPLES; do
   bowtie2 -1 NANOPORE_TRIMMED/$SAMPLE.R1.fastq \
           -2 NANOPORE_TRIMMED/$SAMPLE.R2.fastq \
-          -S MAPPING/$SAMPLE.sam \
+          -S BINNING/$ASSEMBLY/MAPPING/$SAMPLE.sam \
           -x BINNING/$ASSEMBLY/MAPPING/contigs \
           --threads $NTHREADS \
           --no-unal

@@ -21,7 +21,7 @@ Principal Investigator
 3. [Metagenome assembling](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/03-assembling.md)
 4. [Binning of MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/04-MAG-binning.md)
 5. [Re-assembly of hybrid MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/05-hybrid-assembling.md)
-6. [Working with MAGs]()
+6. [Working with MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/06-working-with-MAGs.md).
 
 ## Before starting
 
@@ -34,17 +34,18 @@ Principal Investigator
 * Porechop v0.2.4: https://github.com/rrwick/Porechop/
 * seqtk v1.3: https://github.com/lh3/seqtk/
 * METAXA v2.2: https://microbiology.se/software/metaxa2/
-* DIAMOND v0.9.25.126: https://github.com/bbuchfink/diamond/
+* DIAMOND v0.9.14: https://github.com/bbuchfink/diamond/
 * KEGG database release 86: https://www.genome.jp/kegg/
   * The KEGG database is available for download for paying subscribers only :(
   * Alternatively, you can use their free-of-charge online tool BlastKOALA: https://www.kegg.jp/blastkoala/
 * MEGAHIT v1.1.1.2: https://github.com/voutcn/megahit/
 * Flye v2.7.1: https://github.com/fenderglass/Flye/
-* bowtie v2.3.4.2: http://bowtie-bio.sourceforge.net/bowtie2/
+* bowtie v2.3.5: http://bowtie-bio.sourceforge.net/bowtie2/
 * SAMtools v1.9: http://www.htslib.org/
 * pilon v1.23: https://github.com/broadinstitute/pilon/
 * metaQUAST v5.0.2: http://bioinf.spbau.ru/metaquast/
 * anvi’o v6.2: https://merenlab.org/software/anvio/
+* Unicycler v0.4.8: https://github.com/rrwick/Unicycler/
 * R: https://www.r-project.org/
 * R packages
   * base v3.6.2
