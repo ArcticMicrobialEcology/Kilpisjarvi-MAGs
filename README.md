@@ -2,7 +2,7 @@
 
 Bioinformatics workflow used in the article:
 
-> Pessi I. S.,  Viitamäki S., Eronen-Rasimus E., Delmont T. O., Luoto M., Hultman J. 2020. Truncated denitrifiers dominate the denitrification pathway in tundra soil metagenomes. BioRxiv, doi: XXX.
+> Pessi I. S.,  Viitamäki S., Eronen-Rasimus E., Delmont T. O., Luoto M., Hultman J. 2020. Truncated denitrifiers dominate the denitrification pathway in tundra soil metagenomes. BioRxiv, doi: [10.1101/2020.12.21.419267](https://doi.org/10.1101/2020.12.21.419267).
 
 ## Contacts
 
