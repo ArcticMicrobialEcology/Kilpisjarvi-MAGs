@@ -1,16 +1,23 @@
 # Pre-processing of raw metagenomic data
 
+We have a total of 69 samples.  
+Most of them were sequenced only with Illumina NextSeq/NovaSeq; two samples were also sequenced with Nanopore MinION.
+
 ## Illumina data
+
+The 69 samples were sequenced using a mix of Illumina NextSeq and NovaSeq, with some samples being sequenced with both.  
+That is why we have a total of 88 paired FASTQ files.  
+After quality control, we will merge the files from the same sample.
 
 ### Download raw data from ENA
 
 ```bash
 mkdir RAW_ILLUMINA
 
-while read PREFIX R1_FTP_PATH R2_FTP_PATH; do
-  curl $R1_FTP_PATH > RAW_ILLUMINA/$PREFIX.R1.fastq.gz
-  curl $R2_FTP_PATH > RAW_ILLUMINA/$PREFIX.R2.fastq.gz
-done < <(cut -f 6,7,8 sample_metadata_illumina.txt | sed '1d')
+while read SAMPLE RUN R1_FTP_PATH R2_FTP_PATH; do
+  curl $R1_FTP_PATH > RAW_ILLUMINA/$SAMPLE.$RUN.R1.fastq.gz
+  curl $R2_FTP_PATH > RAW_ILLUMINA/$SAMPLE.$RUN.R2.fastq.gz
+done < <(cut -f 1-4 sample_metadata.tsv | sed '1d')
 ```
 
 ### Check raw data with fastQC and multiQC
@@ -32,19 +39,17 @@ multiqc RAW_ILLUMINA/FASTQC \
 ```bash
 mkdir TRIMMED_ILLUMINA
 
-PREFIX=`cut -f 6 sample_metadata_illumina.txt | sed '1d'`
-
-for FILE in $PREFIX; do
-  cutadapt RAW_ILLUMINA/$FILE.R1.fastq.gz \
-           RAW_ILLUMINA/$FILE.R2.fastq.gz \
-           -o TRIMMED_ILLUMINA/$FILE.R1.fastq \
-           -p TRIMMED_ILLUMINA/$FILE.R2.fastq \
+while read SAMPLE RUN; do
+  cutadapt RAW_ILLUMINA/$SAMPLE.$RUN.R1.fastq.gz \
+           RAW_ILLUMINA/$SAMPLE.$RUN.R2.fastq.gz \
+           -o TRIMMED_ILLUMINA/$SAMPLE.$RUN.R1.fastq \
+           -p TRIMMED_ILLUMINA/$SAMPLE.$RUN.R2.fastq \
            -a CTGTCTCTTATACACATCTCCGAGCCCACGAGAC \
            -A CTGTCTCTTATACACATCTGACGCTGCCGACGA \
            -m 50 \
            -j $NTHREADS \
            --nextseq-trim 20
-done
+done < <(cut -f 1-2 sample_metadata.tsv | sed '1d')
 ```
 
 ### Check trimmed data with fastQC and multiQC
@@ -61,15 +66,15 @@ multiqc TRIMMED_ILLUMINA/FASTQC \
         --interactive
 ```
 
-### Pool NextSeq and NovaSeq data for each sample
+### Pool NextSeq and NovaSeq runs
 
 ```bash
 mkdir POOLED_ILLUMINA
 
-while read SAMPLE PREFIX; do
-  cat TRIMMED_ILLUMINA/$PREFIX.R1.fastq >> POOLED_ILLUMINA/$SAMPLE.R1.fastq
-  cat TRIMMED_ILLUMINA/$PREFIX.R2.fastq >> POOLED_ILLUMINA/$SAMPLE.R2.fastq
-done < <(cut -f 1,6 sample_metadata_illumina.txt | sed '1d')
+while read SAMPLE RUN; do
+  cat TRIMMED_ILLUMINA/$SAMPLE.$RUN.R1.fastq >> POOLED_ILLUMINA/$SAMPLE.R1.fastq
+  cat TRIMMED_ILLUMINA/$SAMPLE.$RUN.R2.fastq >> POOLED_ILLUMINA/$SAMPLE.R2.fastq
+done < <(cut -f 1-2 sample_metadata.tsv | sed '1d')
 ```
 
 ## Nanopore data
@@ -83,15 +88,15 @@ done < <(cut -f 1,6 sample_metadata_illumina.txt | sed '1d')
 >```bash
 > for SAMPLE in m11216 m12208; do
 >   # Run guppy
->   guppy_basecaller -i RAW_NANOPORE/$SAMPLE/*/fast5_skip \
+>   guppy_basecaller -i RAW_NANOPORE/$SAMPLE/ \
 >                    -s BASECALLED_NANOPORE/$SAMPLE \
->                    -c ont-guppy/data/dna_r9.4.1_450bps_hac.cfg \
+>                    -c $HOME/ont-guppy/data/dna_r9.4.1_450bps_hac.cfg \
 >                    --device auto \
 >                    --qscore_filtering
 >
 >   # Run pycoQC
 >   pycoQC --summary_file BASECALLED_NANOPORE/$SAMPLE/sequencing_summary.txt \
->          --html_outfile BASECALLED_NANOPORE/PYCOQC/$SAMPLE.html
+>          --html_outfile BASECALLED_NANOPORE/$SAMPLE/pycoQC_report.html
 >
 >   # Merge passed reads
 >   cat BASECALLED_NANOPORE/$SAMPLE/pass/*.fastq | gzip > BASECALLED_NANOPORE/$SAMPLE.fastq.gz
@@ -102,9 +107,8 @@ done < <(cut -f 1,6 sample_metadata_illumina.txt | sed '1d')
 ```bash
 mkdir BASECALLED_NANOPORE
 
-while read PREFIX FTP_PATH; do
-  curl $FTP_PATH > BASECALLED_NANOPORE/$PREFIX.fastq.gz
-done < <(cut -f 6,7,8 sample_metadata_nanopore.txt | sed '1d')
+curl $FTP_PATH > BASECALLED_NANOPORE/m11216.NANOPORE.fastq.gz
+curl $FTP_PATH > BASECALLED_NANOPORE/m12208.NANOPORE.fastq.gz
 ```
 
 ### Trim adapters with Porechop
@@ -112,9 +116,7 @@ done < <(cut -f 6,7,8 sample_metadata_nanopore.txt | sed '1d')
 ```bash
 mkdir TRIMMED_NANOPORE
 
-PREFIX=`cut -f 6 sample_metadata_nanopore.txt | sed '1d'`
-
-for FILE in $PREFIX; do
+for SAMPLE in m11216 m12208; do
   porechop -i BASECALLED_NANOPORE/$FILE.fastq.gz \
            -o TRIMMED_NANOPORE/$FILE.fastq \
            --discard_middle \

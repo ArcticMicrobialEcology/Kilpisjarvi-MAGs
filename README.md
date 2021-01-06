@@ -69,10 +69,9 @@ NTHREADS=40
 
 ### Get sample metadata
 
-We have prepared two metadata files that will be used to download the FASTQ files and analyse the data in R.  
-You can download them [here](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/sample_metadata_illumina.txt) and [here](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/sample_metadata_nanopore.txt), or using the command line:
+We have prepared a metadata file that will help us downloading the FASTQ files and running some of the scripts.  
+You can download it [here](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/sample_metadata.tsv), or using the command line:
 
 ```bash
-wget https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/sample_metadata_illumina.txt
-wget https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/sample_metadata_nanopore.txt
+wget https://raw.githubusercontent.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/master/sample_metadata.tsv
 ```
