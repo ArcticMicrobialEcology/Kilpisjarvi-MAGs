@@ -3,27 +3,22 @@
 ## Illumina data
 
 Based on the read-based analyses, samples appear too different for a good co-assembly.  
-We will then do two co-assemblies, one with the fen samples only and the other with the remaining (upland) samples.  
-This is done by assigning the variables $ASSEMBLY, $R1 and $R2.  
+We will then do two co-assemblies, one with the fen samples only and the other with the remaining (upland) samples.
 
 ### Define assembly and create list of file names
 
 ```bash
 # Assembly of upland samples
-grep -v fen sample_metadata_illumina.txt | cut -f 1 > UPLAND_SAMPLES.txt
-
 ASSEMBLY=UPLAND_CO
-
-R1=`awk -v ORS="," '{print "TRIMMED_ILLUMINA/" $0 "R1.fastq"}' UPLAND_SAMPLES.txt | sed 's/,$/\n/'`
-R2=`awk -v ORS="," '{print "TRIMMED_ILLUMINA/" $0 "R2.fastq"}' UPLAND_SAMPLES.txt | sed 's/,$/\n/'`
+SAMPLES=`awk '{if ($5 == "upland") {print $1}}' sample_metadata.tsv | uniq`
+R1=`awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R1.fastq"}' UPLAND_SAMPLES.txt | sed 's/,$/\n/'`
+R2=`awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R2.fastq"}' UPLAND_SAMPLES.txt | sed 's/,$/\n/'`
 
 # Assembly of fen samples
-grep fen sample_metadata_illumina.txt | cut -f 1 > FEN_SAMPLES.txt
-
 ASSEMBLY=FEN_CO
-
-R1=`awk -v ORS="," '{print "TRIMMED_ILLUMINA/" $0 ".R1.fastq"}' FEN_SAMPLES.txt | sed 's/,$/\n/'`
-R2=`awk -v ORS="," '{print "TRIMMED_ILLUMINA/" $0 ".R2.fastq"}' FEN_SAMPLES.txt | sed 's/,$/\n/'`
+SAMPLES=`awk '{if ($5 == "fen") {print $1}}' sample_metadata.tsv | uniq`
+R1=`awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R1.fastq"}' FEN_SAMPLES.txt | sed 's/,$/\n/'`
+R2=`awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R2.fastq"}' FEN_SAMPLES.txt | sed 's/,$/\n/'`
 ```
 
 ### Assemble reads with MEGAHIT
@@ -75,8 +70,8 @@ flye --nano-raw TRIMMED_NANOPORE/$SAMPLE.fastq \
 bowtie2-build ASSEMBLIES/$ASSEMBLY/assembly.fasta \
               ASSEMBLIES/$ASSEMBLY/assembly
 
-bowtie2 -1 TRIMMED_ILLUMINA/$SAMPLE.R1.fastq \
-        -2 TRIMMED_ILLUMINA/$SAMPLE.R2.fastq \
+bowtie2 -1 POOLED_ILLUMINA/$SAMPLE.R1.fastq \
+        -2 POOLED_ILLUMINA/$SAMPLE.R2.fastq \
         -S ASSEMBLIES/$ASSEMBLY/$SAMPLE.sam \
         -x ASSEMBLIES/$ASSEMBLY/assembly \
         --threads $NTHREADS \
@@ -100,7 +95,7 @@ java -Xmx128G -jar $PILON_DIR/pilon-1.23.jar --genome ASSEMBLIES/$ASSEMBLY/assem
 ## Check assemblies with metaQUAST
 
 ```bash
-metaquast.py ASSEMBLIES/UPLAND/final.contigs.fa ASSEMBLIES/FEN/final.contigs.fa ASSEMBLIES/m11216/pilon.fasta ASSEMBLIES/m12208/pilon.fasta \
+metaquast.py ASSEMBLIES/UPLAND_CO/final.contigs.fa ASSEMBLIES/FEN_CO/final.contigs.fa ASSEMBLIES/M11216_NANO/pilon.fasta ASSEMBLIES/M12208_NANO/pilon.fasta \
              -o ASSEMBLIES/METAQUAST \
              -t $NTHREADS \
              --fast
