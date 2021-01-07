@@ -140,14 +140,14 @@ kegg <- lapply(SAMPLES, function(SAMPLE) {
 ## Assign KO
 KOtable <- lapply(SAMPLES, function(SAMPLE) {
   kegg[[SAMPLE]] %>%
-    keggR::assignKEGG
+    keggR::assignKEGG()
 }) %>%
   set_names(SAMPLES)
 
 ## Merge KO tables
 KOtable <- lapply(SAMPLES, function(SAMPLE) {
   KOtable[[SAMPLE]] %>%
-    keggR::getKOtable %>%
+    keggR::getKOtable() %>%
     select(KO, gene) %>%
     mutate(Sample = SAMPLE)
 }) %>%

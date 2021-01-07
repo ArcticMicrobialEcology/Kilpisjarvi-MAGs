@@ -11,14 +11,14 @@ We will then do two co-assemblies, one with the fen samples only and the other w
 # Assembly of upland samples
 ASSEMBLY=UPLAND_CO
 SAMPLES=`awk '{if ($5 == "upland") {print $1}}' sample_metadata.tsv | uniq`
-R1=`awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R1.fastq"}' UPLAND_SAMPLES.txt | sed 's/,$/\n/'`
-R2=`awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R2.fastq"}' UPLAND_SAMPLES.txt | sed 's/,$/\n/'`
+R1=`printf '%s\n' $SAMPLES | awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R1.fastq"}' | sed 's/,$/\n/'`
+R2=`printf '%s\n' $SAMPLES | awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R2.fastq"}' | sed 's/,$/\n/'`
 
 # Assembly of fen samples
 ASSEMBLY=FEN_CO
 SAMPLES=`awk '{if ($5 == "fen") {print $1}}' sample_metadata.tsv | uniq`
-R1=`awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R1.fastq"}' FEN_SAMPLES.txt | sed 's/,$/\n/'`
-R2=`awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R2.fastq"}' FEN_SAMPLES.txt | sed 's/,$/\n/'`
+R1=`printf '%s\n' $SAMPLES | awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R1.fastq"}' | sed 's/,$/\n/'`
+R2=`printf '%s\n' $SAMPLES | awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R2.fastq"}' | sed 's/,$/\n/'`
 ```
 
 ### Assemble reads with MEGAHIT
