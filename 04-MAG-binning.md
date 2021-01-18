@@ -1,4 +1,4 @@
-# MAG binning
+# MAG binning 
 
 Here we will bin MAGs for each of the four (co-)assemblies separately.
 

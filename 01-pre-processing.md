@@ -75,6 +75,14 @@ while read SAMPLE RUN; do
   cat TRIMMED_ILLUMINA/$SAMPLE.$RUN.R1.fastq >> POOLED_ILLUMINA/$SAMPLE.R1.fastq
   cat TRIMMED_ILLUMINA/$SAMPLE.$RUN.R2.fastq >> POOLED_ILLUMINA/$SAMPLE.R2.fastq
 done < <(cut -f 1-2 sample_metadata.tsv | sed '1d')
+
+# Get number of trimmed reads
+SAMPLES=`cut -f 1 sample_metadata.tsv | sed '1d' | uniq`
+
+for SAMPLE in $SAMPLES; do
+  READS=`grep -c '>' POOLED_ILLUMINA/$SAMPLE.R1.fastq`
+  printf '%s\t%s\n' $SAMPLE $READS
+done > POOLED_ILLUMINA/trimmed_reads.txt
 ```
 
 ## Nanopore data

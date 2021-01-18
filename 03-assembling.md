@@ -1,6 +1,6 @@
 # Metagenome assembling
 
-## Illumina data
+## Illumina data 
 
 Based on the read-based analyses, samples appear too different for a good co-assembly.  
 We will then do two co-assemblies, one with the fen samples only and the other with the remaining (upland) samples.

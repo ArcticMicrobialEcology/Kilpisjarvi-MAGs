@@ -1,6 +1,6 @@
 # Read-based analyses
 
-### Resample FASTQ files with seqtk
+### Resample FASTQ files with seqtk 
 
 Because there are large differences in library size, we are going to resample the dataset to 2,000,000 reads per sample.
 
