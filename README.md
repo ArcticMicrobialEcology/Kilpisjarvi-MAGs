@@ -55,6 +55,9 @@ Principal Investigator
   * keggR v0.9.1 (https://github.com/igorspp/keggR)
   * multcomp v1.4.15 (https://cran.r-project.org/web/packages/multcomp)
   * vegan v2.5.6 (https://cran.r-project.org/web/packages/vegan)
+  * ape v5.3 (https://cran.r-project.org/web/packages/ape)
+  * pheatmap v1.0.12 (https://cran.r-project.org/web/packages/pheatmap)
+  * VennDiagram v1.6.20 (https://cran.r-project.org/web/packages/VennDiagram)
 
 We have used an Atos BullSequana X400 system running the Red Hat Enterprise Linux Server 7.7 (Maipo).  
 You should be able to run the analysis with any UNIX-based OS.
