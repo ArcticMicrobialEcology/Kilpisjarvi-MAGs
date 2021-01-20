@@ -492,4 +492,11 @@ bind_rows(bind_cols(coverage, coverage.sum[["Barren"]]) %>%
   scale_fill_manual(name = "Ecosystem", values = c("barren" = "#caa1f7", "heathland" = "#61b7d9", "meadow" = "#63d6aa", "fen" = "#f9b99f")) +
   scale_y_continuous(labels = scales::percent)
 
+
+##### SAVE R ENVIRONMENT #####
+save.image("MAGS/MAGs.RData")
 ```
+
+## Next step
+
+Continue to [denitrifier MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/07-denitrifier-MAGs.md).
