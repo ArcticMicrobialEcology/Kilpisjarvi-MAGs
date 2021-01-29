@@ -1,4 +1,4 @@
-# Denitrifier MAGs
+# Denitrifier MAGs 
 
 ### Find denitrifier MAGs in R
 

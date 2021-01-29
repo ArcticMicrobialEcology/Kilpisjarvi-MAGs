@@ -98,8 +98,8 @@ bowtie2-build MAGS/NR_MAGs.fa \
 SAMPLES=`cut -f 1 sample_metadata.tsv | sed '1d' | uniq`
 
 for SAMPLE in $SAMPLES; do
-  bowtie2 -1 TRIMMED_ILLUMINA/$SAMPLE.R1.fastq \
-          -2 TRIMMED_ILLUMINA/$SAMPLE.R2.fastq \
+  bowtie2 -1 POOLED_ILLUMINA/$SAMPLE.R1.fastq \
+          -2 POOLED_ILLUMINA/$SAMPLE.R2.fastq \
           -S MAGS/MAPPING/$SAMPLE.sam \
           -x MAGS/MAPPING/NR_MAGs \
           --threads $NTHREADS \
@@ -499,4 +499,4 @@ save.image("MAGS/MAGs.RData")
 
 ## Next step
 
-Continue to [denitrifier MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/07-denitrifier-MAGs.md).
+Continue to [denitrifier MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/07-denitrifier-MAGs.md).

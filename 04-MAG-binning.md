@@ -246,4 +246,4 @@ fi
 
 ## Next step
 
-Continue to the [re-assembly of hybrid MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/05-hybrid-assembling.md).
+Continue to the [re-assembly of hybrid MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/05-hybrid-assembling.md).

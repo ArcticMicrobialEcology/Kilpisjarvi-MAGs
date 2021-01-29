@@ -133,4 +133,4 @@ done < HYBRID_MAGS/reassembly_list.txt
 
 ## Next step
 
-Continue to [working with MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/06-working-with-MAGs.md).
+Continue to [working with MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/06-working-with-MAGs.md).

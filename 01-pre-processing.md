@@ -148,4 +148,4 @@ multiqc TRIMMED_NANOPORE/FASTQC \
 
 ## Next step
 
-Continue to the [read-based analyses](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/02-read-based.md).
+Continue to the [read-based analyses](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/02-read-based.md).

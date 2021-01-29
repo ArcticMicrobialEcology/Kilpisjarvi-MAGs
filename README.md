@@ -16,12 +16,13 @@ Principal Investigator
 
 ## Table of contents
 
-1. [Pre-processing of raw data](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/01-pre-processing.md)
-2. [Read-based analyses](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/02-read-based.md)
-3. [Metagenome assembling](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/03-assembling.md)
-4. [Binning of MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/04-MAG-binning.md)
-5. [Re-assembly of hybrid MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/05-hybrid-assembling.md)
-6. [Working with MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/06-working-with-MAGs.md)
+1. [Pre-processing of raw data](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/01-pre-processing.md)
+2. [Read-based analyses](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/02-read-based.md)
+3. [Metagenome assembling](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/03-assembling.md)
+4. [Binning of MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/04-MAG-binning.md)
+5. [Re-assembly of hybrid MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/05-hybrid-assembling.md)
+6. [Working with MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/06-working-with-MAGs.md)
+7. [Denitrifier MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/07-denitrifier-MAGs.md)
 
 ## Before starting
 
@@ -73,8 +74,8 @@ NTHREADS=40
 ### Get sample metadata
 
 We have prepared a metadata file that will help us downloading the FASTQ files and running some of the scripts.  
-You can download it [here](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/master/sample_metadata.tsv), or using the command line:
+You can download it [here](https://raw.githubusercontent.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/main/sample_metadata.tsv), or using the command line:
 
 ```bash
-wget https://raw.githubusercontent.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/master/sample_metadata.tsv
+wget https://raw.githubusercontent.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/main/sample_metadata.tsv
 ```
