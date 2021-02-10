@@ -1,4 +1,4 @@
-# MAG binning 
+# MAG binning
 
 Here we will bin MAGs for each of the four (co-)assemblies separately.
 
@@ -11,11 +11,11 @@ ASSEMBLY=M11216_NANO # OR
 ASSEMBLY=M12208_NANO
 
 if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'M11216_NANO' ]]; then
-  SAMPLES=`awk '{if ($5 == "upland") {print $1}}' sample_metadata.tsv | uniq`
+  SAMPLES=`awk -F '\t' '{if ($5 == "upland") {print $1}}' sample_metadata.tsv | uniq`
 fi
 
 if [[ $ASSEMBLY == 'FEN_CO' || $ASSEMBLY == 'M12208_NANO' ]]; then
-  SAMPLES=`awk '{if ($5 == "fen") {print $1}}' sample_metadata.tsv | uniq`
+  SAMPLES=`awk -F '\t' '{if ($5 == "fen") {print $1}}' sample_metadata.tsv | uniq`
 fi
 ```
 
