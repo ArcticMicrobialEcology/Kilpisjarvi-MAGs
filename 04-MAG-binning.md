@@ -205,12 +205,12 @@ mkdir BINNING/FINAL_MAGS
 
 if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'M11216_NANO' ]]; then
   PREFIX=KUL
-  COUNT=`ls FINAL_MAGS | grep KUL_MAG | wc -l`
+  COUNT=`ls BINNING/FINAL_MAGS | grep KUL | wc -l`
 fi
 
 if [[ $ASSEMBLY == 'FEN_CO' || $ASSEMBLY == 'M12208_NANO' ]]; then
   PREFIX=KWL
-  COUNT=`ls FINAL_MAGS | grep KWL_MAG_* | wc -l`
+  COUNT=`ls BINNING/FINAL_MAGS | grep KWL | wc -l`
 fi
 
 if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'FEN_CO' ]]; then
