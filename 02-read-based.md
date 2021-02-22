@@ -35,7 +35,7 @@ for SAMPLE in $SAMPLES; do
 done
 
 # Summarise results
-for NUM in seq 1 8; do
+for NUM in `seq 1 8`; do
   metaxa2_dc METAXA/*level_"$NUM".txt \
              -o METAXA/summary_level_"$NUM".txt
 done
