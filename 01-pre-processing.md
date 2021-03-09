@@ -80,7 +80,7 @@ done < <(cut -f 1-2 sample_metadata.tsv | sed '1d')
 SAMPLES=`cut -f 1 sample_metadata.tsv | sed '1d' | uniq`
 
 for SAMPLE in $SAMPLES; do
-  READS=`awk '{l+=1} END {print l}' POOLED_ILLUMINA/$SAMPLE.R1.fastq`
+  READS=`awk '{l+=1} END {print l/4}' POOLED_ILLUMINA/$SAMPLE.R1.fastq`
   printf '%s\t%s\n' $SAMPLE $READS
 done > POOLED_ILLUMINA/trimmed_reads.txt
 ```
@@ -125,8 +125,8 @@ curl $FTP_PATH > BASECALLED_NANOPORE/m12208.NANOPORE.fastq.gz
 mkdir TRIMMED_NANOPORE
 
 for SAMPLE in m11216 m12208; do
-  porechop -i BASECALLED_NANOPORE/$FILE.fastq.gz \
-           -o TRIMMED_NANOPORE/$FILE.fastq \
+  porechop -i BASECALLED_NANOPORE/$SAMPLE.fastq.gz \
+           -o TRIMMED_NANOPORE/$SAMPLE.fastq \
            --discard_middle \
            --threads $NTHREADS
 done
