@@ -17,49 +17,57 @@ fi
 if [[ $ASSEMBLY == 'FEN_CO' || $ASSEMBLY == 'M12208_NANO' ]]; then
   SAMPLES=`awk -F '\t' '{if ($5 == "fen") {print $1}}' sample_metadata.tsv | uniq`
 fi
+
+mkdir BINNING
 ```
 
 ### Rename contigs and select those >2,500 bp
 
 ```bash
-mkdir -p BINNING/$ASSEMBLY
+mkdir BINNING/$ASSEMBLY
 
 if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'FEN_CO' ]]; then
-  anvi-script-reformat-fasta ASSEMBLIES/$ASSEMBLY/final.contigs.fa \
-                             --output-file BINNING/$ASSEMBLY/CONTIGS_2500nt.fa \
-                             --report-file BINNING/$ASSEMBLY/CONTIGS_reformat.txt \
-                             --prefix $ASSEMBLY \
-                             --min-len 2500 \
-                             --simplify-names
+  FASTA_FILE=ASSEMBLIES/$ASSEMBLY/final.contigs.fa
 fi
 
 if [[ $ASSEMBLY == 'M11216_NANO' || $ASSEMBLY == 'M12208_NANO' ]]; then
-  anvi-script-reformat-fasta ASSEMBLIES/$ASSEMBLY/pilon.fasta \
-                             --output-file BINNING/$ASSEMBLY/CONTIGS_2500nt.fa \
-                             --report-file BINNING/$ASSEMBLY/CONTIGS_reformat.txt \
-                             --prefix $ASSEMBLY \
-                             --min-len 2500 \
-                             --simplify-names
+  FASTA_FILE=ASSEMBLIES/$ASSEMBLY/pilon.fasta
 fi
+
+anvi-script-reformat-fasta $FASTA_FILE \
+                           --output-file BINNING/$ASSEMBLY/CONTIGS_2500nt.fa \
+                           --report-file BINNING/$ASSEMBLY/CONTIGS_reformat.txt \
+                           --prefix $ASSEMBLY \
+                           --min-len 2500 \
+                           --simplify-names
 ```
 
-### Prepare files for anvi'o
+### Build a contigs database
 
 ```bash
-# Build a contigs database
 anvi-gen-contigs-database --contigs-fasta BINNING/$ASSEMBLY/CONTIGS_2500nt.fa \
                           --output-db-path BINNING/$ASSEMBLY/CONTIGS.db \
-                          --project-name $ASSEMBLY
+                          --project-name $ASSEMBLY \
+                          --num-threads $NTHREADS
+```
 
-# Find single-copy genes with HMMER
+### Find single-copy genes with HMMER
+
+```bash
 anvi-run-hmms --contigs-db BINNING/$ASSEMBLY/CONTIGS.db \
               --num-threads $NTHREADS
+```
 
-# Get taxonomy for single copy genes
+### Get taxonomy for single copy genes against GTDB
+
+```bash
 anvi-run-scg-taxonomy --contigs-db BINNING/$ASSEMBLY/CONTIGS.db \
                       --num-threads $NTHREADS
+```
 
-# Map reads with bowtie
+### Map reads with bowtie
+
+```bash
 mkdir BINNING/$ASSEMBLY/MAPPING
 
 bowtie2-build BINNING/$ASSEMBLY/CONTIGS_2500nt.fa \
@@ -76,8 +84,11 @@ for SAMPLE in $SAMPLES; do
   samtools view -F 4 -bS BINNING/$ASSEMBLY/MAPPING/$SAMPLE.sam | samtools sort > BINNING/$ASSEMBLY/MAPPING/$SAMPLE.bam
   samtools index BINNING/$ASSEMBLY/MAPPING/$SAMPLE.bam
 done
+```
 
-# Build profile databases
+### Build profile databases
+
+```bash
 mkdir BINNING/$ASSEMBLY/PROFILES
 
 for SAMPLE in $SAMPLES; do
@@ -86,8 +97,11 @@ for SAMPLE in $SAMPLES; do
                --contigs-db BINNING/$ASSEMBLY/CONTIGS.db \
                --num-threads $NTHREADS
 done
+```
 
-# Merge profiles
+### Merge profiles
+
+```bash
 if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'FEN_CO' ]]; then
   anvi-merge BINNING/$ASSEMBLY/PROFILES/*/PROFILE.db \
              --output-dir BINNING/$ASSEMBLY/MERGED_PROFILES \
@@ -103,10 +117,10 @@ if [[ $ASSEMBLY == 'M11216_NANO' || $ASSEMBLY == 'M12208_NANO' ]]; then
 fi
 ```
 
-### Bin MAGs with anvi'o
+### Bin MAGs
 
 The co-assemblies are really huge and thus impossible to load in the interactive interface for binning.  
-We will then first use CONCOCT to pre-cluster the contigs into 100 clusters, which will then be suitbale for the interactive interface.
+We will then first use CONCOCT to pre-cluster the contigs into 100 clusters, which will then be suitable for the interactive interface.
 
 ```bash
 # Illumina co-assemblies
@@ -121,20 +135,24 @@ if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'FEN_CO' ]]; then
                        --just-do-it
 
   # Create individual contigs and profile databases
+  mkdir BINNING/$ASSEMBLY/CONCOCT_SPLIT
+
   anvi-split --pan-or-profile-db BINNING/$ASSEMBLY/MERGED_PROFILES/PROFILE.db \
              --contigs-db BINNING/$ASSEMBLY/CONTIGS.db \
              --output-dir BINNING/$ASSEMBLY/CONCOCT_SPLIT \
              --collection-name CONCOCT \
              --skip-variability-tables
 
+  CLUSTERS=`ls BINNING/$ASSEMBLY/CONCOCT_SPLIT`
+
   # Bin MAGs
-  for CLUSTER in `seq 1 100 | awk -v OFS='_' '{print "Bin", $0}'`; do
+  for CLUSTER in $CLUSTERS; do
     anvi-interactive --profile-db BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/PROFILE.db \
                      --contigs-db BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/CONTIGS.db
   done
 
   # Call MAGs
-  for CLUSTER in `seq 1 100 | awk -v OFS='_' '{print "Bin", $0}'`; do
+  for CLUSTER in $CLUSTERS; do
     anvi-rename-bins --profile-db BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/PROFILE.db \
                      --contigs-db BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/CONTIGS.db \
                      --report-file BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/renamed_bins.txt \
@@ -147,7 +165,7 @@ if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'FEN_CO' ]]; then
   done
 
   # Refine MAGs
-  for CLUSTER in `seq 1 100 | awk -v OFS='_' '{print "Bin", $0}'`; do
+  for CLUSTER in $CLUSTERS; do
     for MAG in `sqlite3 BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/PROFILE.db 'SELECT bin_name FROM collections_bins_info WHERE collection_name LIKE "FINAL"' | grep MAG`; do
       anvi-refine --profile-db BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/PROFILE.db \
                   --contigs-db BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/CONTIGS.db \
@@ -157,7 +175,7 @@ if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'FEN_CO' ]]; then
   done
 
   # Summarise MAGs
-  for CLUSTER in `seq 1 100 | awk -v OFS='_' '{print "Bin", $0}'`; do
+  for CLUSTER in $CLUSTERS; do
     anvi-summarize --contigs-db BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/CONTIGS.db \
                    --pan-or-profile-db BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/PROFILE.db \
                    --output-dir BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER.SUMMARY \
@@ -201,28 +219,28 @@ fi
 ### Rename MAGs
 
 ```bash
-mkdir BINNING/FINAL_MAGS
+mkdir BINNING/FINAL_MAGs
 
 if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'M11216_NANO' ]]; then
   PREFIX=KUL
-  COUNT=`ls BINNING/FINAL_MAGS | grep KUL | wc -l`
+  COUNT=`ls BINNING/FINAL_MAGs | grep KUL | wc -l`
 fi
 
 if [[ $ASSEMBLY == 'FEN_CO' || $ASSEMBLY == 'M12208_NANO' ]]; then
   PREFIX=KWL
-  COUNT=`ls BINNING/FINAL_MAGS | grep KWL | wc -l`
+  COUNT=`ls BINNING/FINAL_MAGs | grep KWL | wc -l`
 fi
 
 if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'FEN_CO' ]]; then
-  for CLUSTER in `seq 1 100 | awk -v OFS='_' '{print "Bin", $0}'`; do
+  for CLUSTER in $CLUSTERS; do
     for MAG in `sqlite3 BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER/PROFILE.db 'SELECT bin_name FROM collections_bins_info WHERE collection_name LIKE "FINAL"' | grep MAG`; do
       COUNT=`expr $COUNT + 1`
       NEWMAG=`printf '%s_%04d\n' $PREFIX $COUNT`
 
-      printf '%s\t%s\n' $MAG $NEWMAG >> BINNING/$ASSEMBLY/renamed_MAGs.txt
+      printf '%s\t%s\n' $MAG $NEWMAG >> BINNING/FINAL_MAGs/$ASSEMBLY.renamed_MAGs.txt
 
       anvi-script-reformat-fasta BINNING/$ASSEMBLY/CONCOCT_SPLIT/$CLUSTER.SUMMARY/bin_by_bin/$MAG/$MAG-contigs.fa \
-                                 --output-file BINNING/FINAL_MAGS/$NEWMAG.fa \
+                                 --output-file BINNING/FINAL_MAGs/$NEWMAG.fa \
                                  --prefix $NEWMAG \
                                  --simplify-names
     done
@@ -234,10 +252,10 @@ if [[ $ASSEMBLY == 'M11216_NANO' || $ASSEMBLY == 'M12208_NANO' ]]; then
     COUNT=`expr $COUNT + 1`
     NEWMAG=`printf '%s_%04d\n' $PREFIX $COUNT`
 
-    printf '%s\t%s\n' $MAG $NEWMAG >> BINNING/$ASSEMBLY/renamed_MAGs.txt
+    printf '%s\t%s\n' $MAG $NEWMAG >> BINNING/FINAL_MAGs/$ASSEMBLY.renamed_MAGs.txt
 
     anvi-script-reformat-fasta BINNING/$ASSEMBLY/SUMMARY/bin_by_bin/$MAG/$MAG-contigs.fa \
-                               --output-file BINNING/FINAL_MAGS/$NEWMAG.fa \
+                               --output-file BINNING/FINAL_MAGs/$NEWMAG.fa \
                                --prefix $NEWMAG \
                                --simplify-names
   done
@@ -246,4 +264,4 @@ fi
 
 ## Next step
 
-Continue to the [re-assembly of hybrid MAGs](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/05-hybrid-assembling.md).
+Continue to [working with MAGs](05-working-with-MAGs.md).

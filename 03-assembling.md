@@ -53,7 +53,7 @@ ASSEMBLY=M12208_NANO
 SAMPLE=m12208
 ```
 
-### Assemble reads with Flye in metagenome mode
+### Assemble reads with metaFlye
 
 ```bash
 flye --nano-raw TRIMMED_NANOPORE/$SAMPLE.fastq \
@@ -66,7 +66,7 @@ flye --nano-raw TRIMMED_NANOPORE/$SAMPLE.fastq \
 ### Polish contigs with pilon
 
 ```bash
-# Map Illumina reads to assembly with bowtie
+# Map Illumina reads to the assembly with bowtie
 bowtie2-build ASSEMBLIES/$ASSEMBLY/assembly.fasta \
               ASSEMBLIES/$ASSEMBLY/assembly
 
@@ -103,4 +103,4 @@ metaquast.py ASSEMBLIES/UPLAND_CO/final.contigs.fa ASSEMBLIES/FEN_CO/final.conti
 
 ## Next step
 
-Continue to [MAG binning](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/04-MAG-binning.md).
+Continue to [MAG binning](04-MAG-binning.md).

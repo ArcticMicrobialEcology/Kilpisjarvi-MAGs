@@ -17,7 +17,7 @@ mkdir RAW_ILLUMINA
 while read SAMPLE RUN R1_FTP_PATH R2_FTP_PATH; do
   curl $R1_FTP_PATH > RAW_ILLUMINA/$SAMPLE.$RUN.R1.fastq.gz
   curl $R2_FTP_PATH > RAW_ILLUMINA/$SAMPLE.$RUN.R2.fastq.gz
-done < <(cut -f 1-4 sample_metadata.tsv | sed '1d')
+done < <(cut -f 1-4 sample_metadata.tsv)
 ```
 
 ### Check raw data with fastQC and multiQC
@@ -49,7 +49,7 @@ while read SAMPLE RUN; do
            -m 50 \
            -j $NTHREADS \
            --nextseq-trim 20
-done < <(cut -f 1-2 sample_metadata.tsv | sed '1d')
+done < <(cut -f 1-2 sample_metadata.tsv)
 ```
 
 ### Check trimmed data with fastQC and multiQC
@@ -74,20 +74,12 @@ mkdir POOLED_ILLUMINA
 while read SAMPLE RUN; do
   cat TRIMMED_ILLUMINA/$SAMPLE.$RUN.R1.fastq >> POOLED_ILLUMINA/$SAMPLE.R1.fastq
   cat TRIMMED_ILLUMINA/$SAMPLE.$RUN.R2.fastq >> POOLED_ILLUMINA/$SAMPLE.R2.fastq
-done < <(cut -f 1-2 sample_metadata.tsv | sed '1d')
-
-# Get number of trimmed reads
-SAMPLES=`cut -f 1 sample_metadata.tsv | sed '1d' | uniq`
-
-for SAMPLE in $SAMPLES; do
-  READS=`awk '{l+=1} END {print l/4}' POOLED_ILLUMINA/$SAMPLE.R1.fastq`
-  printf '%s\t%s\n' $SAMPLE $READS
-done > POOLED_ILLUMINA/trimmed_reads.txt
+done < <(cut -f 1-2 sample_metadata.tsv)
 ```
 
 ## Nanopore data
 
-### Download raw (basecalled) data from ENA
+### Download basecalled data from ENA
 
 > **NOTE:**  
 > The Nanopore data deposited at ENA has been already basecalled with GPU guppy v4.0.11 and checked with pycoQC v2.5.0.21.  
@@ -98,7 +90,7 @@ done > POOLED_ILLUMINA/trimmed_reads.txt
 >   # Run guppy
 >   guppy_basecaller -i RAW_NANOPORE/$SAMPLE/ \
 >                    -s BASECALLED_NANOPORE/$SAMPLE \
->                    -c $HOME/ont-guppy/data/dna_r9.4.1_450bps_hac.cfg \
+>                    -c ont-guppy/data/dna_r9.4.1_450bps_hac.cfg \
 >                    --device auto \
 >                    --qscore_filtering
 >
@@ -148,4 +140,4 @@ multiqc TRIMMED_NANOPORE/FASTQC \
 
 ## Next step
 
-Continue to the [read-based analyses](https://github.com/ArcticMicrobialEcology/Kilpisjarvi-MAGs/blob/main/02-read-based.md).
+Continue to the [read-based analyses](02-read-based.md).
