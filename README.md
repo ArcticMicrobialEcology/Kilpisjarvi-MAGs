@@ -20,9 +20,7 @@ Principal Investigator
 2. [Read-based analyses](02-read-based.md)
 3. [Metagenome assembling](03-assembling.md)
 4. [Binning of MAGs](04-MAG-binning.md)
-5. [Annotation of denitrification genes](05-denitrification-genes.md)
-6. [Working with MAGs](06-working-with-MAGs.md)
-7. [Denitrifier MAGs](07-denitrifier-MAGs.md)
+5. [Working with MAGs](05-working-with-MAGs.md)
 
 ## Before starting
 
