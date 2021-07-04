@@ -24,7 +24,7 @@ Principal Investigator
 
 ## Before starting
 
-### You will need to have these softwares installed and in your path (CHECK)
+### You will need to have these softwares installed and in your path
 
 * fastQC v0.11.9: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/
 * multiQC v1.8: https://multiqc.info/
