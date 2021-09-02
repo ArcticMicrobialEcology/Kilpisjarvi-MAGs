@@ -140,4 +140,4 @@ multiqc TRIMMED_NANOPORE/FASTQC \
 
 ## Next step
 
-Continue to the [read-based analyses](02-read-based.md).
+Continue to [metagenome assembling](02-assembling.md).

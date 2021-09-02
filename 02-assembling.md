@@ -103,4 +103,4 @@ metaquast.py ASSEMBLIES/UPLAND_CO/final.contigs.fa ASSEMBLIES/FEN_CO/final.conti
 
 ## Next step
 
-Continue to [MAG binning](04-MAG-binning.md).
+Continue to [MAG binning](03-MAG-binning.md).

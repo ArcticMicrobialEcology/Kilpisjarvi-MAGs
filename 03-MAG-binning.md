@@ -264,4 +264,4 @@ fi
 
 ## Next step
 
-Continue to [working with MAGs](05-working-with-MAGs.md).
+Continue to [working with MAGs](04-working-with-MAGs.md).
