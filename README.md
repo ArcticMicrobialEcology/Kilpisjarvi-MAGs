@@ -17,9 +17,9 @@ Principal Investigator
 ## Table of contents
 
 1. [Pre-processing of raw data](01-pre-processing.md)
-2. [Read-based analyses](02-read-based.md)
-3. [Metagenome assembling](03-assembling.md)
-4. [Binning of MAGs](04-MAG-binning.md)
+2. [Metagenome assembling](02-assembling.md)
+3. [Binning of MAGs](03-MAG-binning.md)
+4. [Gene-centric analyses](04-gene-centric.md)
 5. [Working with MAGs](05-working-with-MAGs.md)
 
 ## Before starting
@@ -32,7 +32,7 @@ Principal Investigator
 * Porechop v0.2.4: https://github.com/rrwick/Porechop/
 * seqtk v1.3: https://github.com/lh3/seqtk/
 * METAXA v2.2: https://microbiology.se/software/metaxa2/
-* DIAMOND v0.9.14: https://github.com/bbuchfink/diamond/
+* mothur v1.44.3: https://mothur.org/
 * MEGAHIT v1.1.1.2: https://github.com/voutcn/megahit/
 * metaFlye v2.7.1: https://github.com/fenderglass/Flye/
 * bowtie v2.3.5: http://bowtie-bio.sourceforge.net/bowtie2/

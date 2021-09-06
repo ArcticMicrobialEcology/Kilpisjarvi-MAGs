@@ -17,7 +17,7 @@ mkdir RAW_ILLUMINA
 while read SAMPLE RUN R1_FTP_PATH R2_FTP_PATH; do
   curl $R1_FTP_PATH > RAW_ILLUMINA/$SAMPLE.$RUN.R1.fastq.gz
   curl $R2_FTP_PATH > RAW_ILLUMINA/$SAMPLE.$RUN.R2.fastq.gz
-done < <(cut -f 1-4 sample_metadata.tsv)
+done < <(cut -f 1-4 sample_metadata.tsv | sed '1d')
 ```
 
 ### Check raw data with fastQC and multiQC
@@ -49,7 +49,7 @@ while read SAMPLE RUN; do
            -m 50 \
            -j $NTHREADS \
            --nextseq-trim 20
-done < <(cut -f 1-2 sample_metadata.tsv)
+done < <(cut -f 1-2 sample_metadata.tsv | sed '1d')
 ```
 
 ### Check trimmed data with fastQC and multiQC
@@ -74,7 +74,46 @@ mkdir POOLED_ILLUMINA
 while read SAMPLE RUN; do
   cat TRIMMED_ILLUMINA/$SAMPLE.$RUN.R1.fastq >> POOLED_ILLUMINA/$SAMPLE.R1.fastq
   cat TRIMMED_ILLUMINA/$SAMPLE.$RUN.R2.fastq >> POOLED_ILLUMINA/$SAMPLE.R2.fastq
-done < <(cut -f 1-2 sample_metadata.tsv)
+done < <(cut -f 1-2 sample_metadata.tsv | sed '1d')
+```
+
+### Get taxonomic profiles
+
+Because there are large differences in library size, we are going to resample the dataset to 2,000,000 reads per sample.
+
+```bash
+# Resample FASTQ files with seqtk
+mkdir RESAMPLED_ILLUMINA
+
+SAMPLES=`cut -f 1 sample_metadata.tsv | sed '1d' | uniq`
+
+for SAMPLE in $SAMPLES; do
+  seqtk sample -s100 POOLED_ILLUMINA/$SAMPLE.R1.fastq 2000000 > RESAMPLED_ILLUMINA/$SAMPLE.R1.fastq
+  seqtk sample -s100 POOLED_ILLUMINA/$SAMPLE.R2.fastq 2000000 > RESAMPLED_ILLUMINA/$SAMPLE.R2.fastq
+done
+
+# Find 16S rRNA gene sequences with METAXA
+mkdir METAXA
+
+for SAMPLE in $SAMPLES; do
+  metaxa2 -1 RESAMPLED_ILLUMINA/$SAMPLE.R1.fastq \
+          -2 RESAMPLED_ILLUMINA/$SAMPLE.R2.fastq \
+          -o METAXA/$SAMPLE \
+          --align none \
+          --graphical F \
+          --cpu $NTHREADS \
+          --plus
+done
+
+# Download SILVA database formatted for mothur
+wget https://mothur.s3.us-east-2.amazonaws.com/wiki/silva.nr_v138_1.tgz
+tar zxf silva.nr_v138_1.tgz
+
+# Classify sequences against SILVA with mothur
+for SAMPLE in $SAMPLES; do
+  mothur "#classify.seqs(fasta=METAXA/$SAMPLE.bacteria.fasta, template=silva.nr_v138_1.align, taxonomy=silva.nr_v138_1.tax)"
+  mothur "#classify.seqs(fasta=METAXA/$SAMPLE.archaea.fasta,  template=silva.nr_v138_1.align, taxonomy=silva.nr_v138_1.tax)"
+done
 ```
 
 ## Nanopore data
@@ -102,7 +141,6 @@ done < <(cut -f 1-2 sample_metadata.tsv)
 >   cat BASECALLED_NANOPORE/$SAMPLE/pass/*.fastq | gzip > BASECALLED_NANOPORE/$SAMPLE.fastq.gz
 > done
 >```
-
 
 ```bash
 mkdir BASECALLED_NANOPORE
