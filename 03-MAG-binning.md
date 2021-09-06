@@ -2,6 +2,10 @@
 
 Here we will bin MAGs for each of the four (co-)assemblies separately.
 
+```bash
+mkdir BINNING
+```
+
 ### Define assembly and create list of sample names
 
 ```bash
@@ -17,8 +21,6 @@ fi
 if [[ $ASSEMBLY == 'FEN_CO' || $ASSEMBLY == 'M12208_NANO' ]]; then
   SAMPLES=`awk -F '\t' '{if ($5 == "fen") {print $1}}' sample_metadata.tsv | uniq`
 fi
-
-mkdir BINNING
 ```
 
 ### Rename contigs and select those >2,500 bp
