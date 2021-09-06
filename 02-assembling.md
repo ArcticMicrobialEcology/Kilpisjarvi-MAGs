@@ -2,7 +2,7 @@
 
 ## Illumina data
 
-Based on the read-based analyses, samples appear too different for a good co-assembly.  
+Based on the taxonomic profiles, samples appear too different for a good co-assembly.  
 We will then do two co-assemblies, one with the fen samples only and the other with the remaining (upland) samples.
 
 ### Define assembly and create list of file names
@@ -26,8 +26,8 @@ R2=`printf '%s\n' $SAMPLES | awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R2.f
 ```bash
 mkdir ASSEMBLIES
 
-megahit -1 `echo $R1` \
-        -2 `echo $R2` \
+megahit -1 $R1 \
+        -2 $R2 \
         --out-dir ASSEMBLIES/$ASSEMBLY \
         --min-contig-len 1000 \
         --k-min 57 \
@@ -82,14 +82,12 @@ samtools view -F 4 -bS ASSEMBLIES/$ASSEMBLY/$SAMPLE.sam | samtools sort > ASSEMB
 samtools index ASSEMBLIES/$ASSEMBLY/$SAMPLE.bam
 
 # Run pilon
-PILON_DIR=$HOME/pilon # Change here to the location of the pilon-1.23.jar file in your system
-
-java -Xmx128G -jar $PILON_DIR/pilon-1.23.jar --genome ASSEMBLIES/$ASSEMBLY/assembly.fasta \
-                                             --bam ASSEMBLIES/$ASSEMBLY/$SAMPLE.bam \
-                                             --outdir ASSEMBLIES/$ASSEMBLY \
-                                             --output pilon \
-                                             --threads $NTHREADS \
-                                             --changes
+java -Xmx128G -jar pilon-1.23.jar --genome ASSEMBLIES/$ASSEMBLY/assembly.fasta \
+                                  --bam ASSEMBLIES/$ASSEMBLY/$SAMPLE.bam \
+                                  --outdir ASSEMBLIES/$ASSEMBLY \
+                                  --output pilon \
+                                  --threads $NTHREADS \
+                                  --changes
 ```
 
 ## Check assemblies with metaQUAST
