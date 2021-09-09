@@ -40,12 +40,12 @@ Principal Investigator
 * pilon v1.23: https://github.com/broadinstitute/pilon/
 * metaQUAST v5.0.2: http://bioinf.spbau.ru/metaquast/
 * anvi’o v6.2: https://merenlab.org/software/anvio/
-* GTDB-Tk v1.3.0 and GTDB release 05-RS95: https://gtdb.ecogenomic.org/
-* dbCAN v.2.0: https://github.com/linnabrown/run_dbcan/
+* CoverM v0.6.1: https://github.com/wwood/CoverM/
 * KofamScan v1.3.0: https://github.com/takaram/kofam_scan/
 * MAFFT v7.429: https://mafft.cbrc.jp/alignment/software/
 * FastTree v2.1.11: http://www.microbesonline.org/fasttree/
-* CoverM v0.6.1: https://github.com/wwood/CoverM/
+* GTDB-Tk v1.3.0 and GTDB release 05-RS95: https://gtdb.ecogenomic.org/
+* dbCAN v.2.0: https://github.com/linnabrown/run_dbcan/
 
 We have used an Atos BullSequana X400 system running the Red Hat Enterprise Linux Server 7.7 (Maipo).  
 You should be able to run the analysis with any UNIX-based OS.

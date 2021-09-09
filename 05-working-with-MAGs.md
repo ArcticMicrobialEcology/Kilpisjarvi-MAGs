@@ -65,7 +65,7 @@ gtdbtk classify_wf --genome_dir BINNING/FINAL_MAGS \
                    --pplacer_cpus $NTHREADS
 ```
 
-### Annotate MAGs (general annotation)
+### Annotate MAGs
 
 ```bash
 # Annotate against KEGG KOfams
@@ -91,35 +91,6 @@ run_dbcan.py MAGs/gene_calls.faa protein \
              --db_dir dbcan-db
 ```
 
-### Annotate MAGs (denitrification genes)
-
-```bash
-mkdir DENITRIFIERS
-
-# Annotate genes with KofamScan
-KOFAM_DB_DIR=$HOME/KOFAM_DB # Change here to the location of the KOfam database in your system
-
-for KO in K00368 K15864 K04561 K00376; do
-  exec_annotation MAGs/gene_calls.faa \
-                  --profile $KOFAM_DB_DIR/profiles/$KO.hmm \
-                  --ko-list $KOFAM_DB_DIR/ko_list \
-                  --format detail-tsv \
-                  --cpu $NTHREADS | grep ^* > DENITRIFIERS/KOFAM_SCAN/$KO.txt
-done
-
-# Align with MAFFT
-for KO in K00368 K15864 K04561 K00376; do
-  cut -f 2 DENITRIFIERS/KOFAM_SCAN/$KO.txt | sort | uniq > DENITRIFIERS/$KO/genes.txt
-  
-  seqtk subseq MAGs/gene_calls.faa DENITRIFIERS/$KO/genes.txt > DENITRIFIERS/$KO/genes.faa
-
-  mafft --auto \
-        --reorder \
-        --thread $NTHREADS \
-        DENITRIFIERS/$KO/genes.faa > DENITRIFIERS/$KO/genes.aln.faa
-done
-```
-
 ### Dereplicate MAGs with fastANI
 
 We will dereplicate the Illumina and Nanopore MAGs to create a set of non-redundant MAGs.  
@@ -136,7 +107,7 @@ done >> MAGs/internal_genomes.txt
 anvi-dereplicate-genomes --internal-genomes MAGs/internal_genomes.txt \
                          --output-dir MAGs/NR_MAGs \
                          --program fastANI \
-                         --similarity-threshold 0.90 \
+                         --similarity-threshold 0.99 \
                          --representative-method Qscore \
                          --num-threads $NTHREADS
 ```
