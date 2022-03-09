@@ -1,6 +1,6 @@
 # MAG binning
 
-Here we will bin MAGs for each of the four (co-)assemblies separately.
+Here we will bin MAGs for each of the four (co-)assemblies separately with anvi'o.
 
 ```bash
 mkdir BINNING
@@ -15,11 +15,11 @@ ASSEMBLY=M11216_NANO # OR
 ASSEMBLY=M12208_NANO
 
 if [[ $ASSEMBLY == 'UPLAND_CO' || $ASSEMBLY == 'M11216_NANO' ]]; then
-  SAMPLES=`awk -F '\t' '{if ($5 == "upland") {print $1}}' sample_metadata.tsv | uniq`
+  SAMPLES=`awk -F '\t' '{if ($4 == "upland") {print $1}}' sample_metadata.tsv | uniq`
 fi
 
 if [[ $ASSEMBLY == 'FEN_CO' || $ASSEMBLY == 'M12208_NANO' ]]; then
-  SAMPLES=`awk -F '\t' '{if ($5 == "fen") {print $1}}' sample_metadata.tsv | uniq`
+  SAMPLES=`awk -F '\t' '{if ($4 == "fen") {print $1}}' sample_metadata.tsv | uniq`
 fi
 ```
 
@@ -53,7 +53,7 @@ anvi-gen-contigs-database --contigs-fasta BINNING/$ASSEMBLY/CONTIGS_2500nt.fa \
                           --num-threads $NTHREADS
 ```
 
-### Find single-copy genes with HMMER
+### Find single-copy genes
 
 ```bash
 anvi-run-hmms --contigs-db BINNING/$ASSEMBLY/CONTIGS.db \
@@ -67,7 +67,7 @@ anvi-run-scg-taxonomy --contigs-db BINNING/$ASSEMBLY/CONTIGS.db \
                       --num-threads $NTHREADS
 ```
 
-### Map reads with bowtie
+### Map reads
 
 ```bash
 mkdir BINNING/$ASSEMBLY/MAPPING

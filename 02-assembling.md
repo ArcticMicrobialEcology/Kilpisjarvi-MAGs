@@ -10,13 +10,13 @@ We will then do two co-assemblies, one with the fen samples only and the other w
 ```bash
 # Assembly of upland samples
 ASSEMBLY=UPLAND_CO
-SAMPLES=`awk -F '\t' '{if ($5 == "upland") {print $1}}' sample_metadata.tsv | uniq`
+SAMPLES=`awk -F '\t' '{if ($4 == "upland") {print $1}}' sample_metadata.tsv | uniq`
 R1=`printf '%s\n' $SAMPLES | awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R1.fastq"}' | sed 's/,$/\n/'`
 R2=`printf '%s\n' $SAMPLES | awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R2.fastq"}' | sed 's/,$/\n/'`
 
 # Assembly of fen samples
 ASSEMBLY=FEN_CO
-SAMPLES=`awk -F '\t' '{if ($5 == "fen") {print $1}}' sample_metadata.tsv | uniq`
+SAMPLES=`awk -F '\t' '{if ($4 == "fen") {print $1}}' sample_metadata.tsv | uniq`
 R1=`printf '%s\n' $SAMPLES | awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R1.fastq"}' | sed 's/,$/\n/'`
 R2=`printf '%s\n' $SAMPLES | awk -v ORS="," '{print "POOLED_ILLUMINA/" $0 ".R2.fastq"}' | sed 's/,$/\n/'`
 ```
@@ -38,8 +38,6 @@ megahit -1 $R1 \
 ```
 
 ## Nanopore data
-
-Here we will do individual asssemblies for each sample.
 
 ### Define assembly
 
@@ -77,7 +75,7 @@ bowtie2 -1 POOLED_ILLUMINA/$SAMPLE.R1.fastq \
         --threads $NTHREADS \
         --no-unal
 
-# Sort and index SAM files
+# Sort and index SAM files with SAMtools
 samtools view -F 4 -bS ASSEMBLIES/$ASSEMBLY/$SAMPLE.sam | samtools sort > ASSEMBLIES/$ASSEMBLY/$SAMPLE.bam
 samtools index ASSEMBLIES/$ASSEMBLY/$SAMPLE.bam
 

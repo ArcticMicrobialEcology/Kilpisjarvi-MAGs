@@ -55,7 +55,7 @@ anvi-summarize --contigs-db MAGs/CONTIGS.db \
                --collection-name FINAL_MAGs
 ```
 
-### Do phylogenomic analysis with GTDB-Tk
+### Classify MAGs with GTDB-Tk
 
 ```bash
 gtdbtk classify_wf --genome_dir BINNING/FINAL_MAGS \
@@ -112,7 +112,7 @@ anvi-dereplicate-genomes --internal-genomes MAGs/internal_genomes.txt \
                          --num-threads $NTHREADS
 ```
 
-### Get the relative abundance of non-redundant MAGs with coverM
+### Get the relative abundance of non-redundant MAGs with CoverM
 
 ```bash
 coverm genome --coupled POOLED_ILLUMINA/*.fastq \

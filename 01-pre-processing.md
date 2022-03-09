@@ -9,7 +9,7 @@ The 69 samples were sequenced using a mix of Illumina NextSeq and NovaSeq, with 
 That is why we have a total of 88 paired FASTQ files.  
 After quality control, we will merge the files from the same sample.
 
-### Download raw data from ENA
+### Download raw data from ENA with fasterq-dump
 
 ```bash
 mkdir RAW_ILLUMINA
@@ -20,11 +20,11 @@ while read SAMPLE RUN RUNID; do
                --threads $NTHREADS \
                --split-files
 
-  gzip RAW_ILLUMINA"$RUNID"_1.fastq
-  gzip RAW_ILLUMINA"$RUNID"_2.fastq
+  gzip RAW_ILLUMINA/"$RUNID"_1.fastq
+  gzip RAW_ILLUMINA/"$RUNID"_2.fastq
 
-  mv RAW_ILLUMINA"$RUNID"_1.fastq.gz RAW_ILLUMINA$SAMPLE.$RUN.R1.fastq.gz
-  mv RAW_ILLUMINA"$RUNID"_1.fastq.gz RAW_ILLUMINA$SAMPLE.$RUN.R2.fastq.gz
+  mv RAW_ILLUMINA/"$RUNID"_1.fastq.gz RAW_ILLUMINA/$SAMPLE.$RUN.R1.fastq.gz
+  mv RAW_ILLUMINA/"$RUNID"_1.fastq.gz RAW_ILLUMINA/$SAMPLE.$RUN.R2.fastq.gz
 done < <(cut -f 1-3 sample_metadata.tsv | sed '1d')
 ```
 
@@ -126,7 +126,7 @@ done
 
 ## Nanopore data
 
-### Download basecalled data from ENA
+### Download basecalled data from ENA with fasterq-dump
 
 > **NOTE:**  
 > The Nanopore data deposited at ENA has been already basecalled with GPU guppy v4.0.11 and checked with pycoQC v2.5.0.21.  
@@ -153,8 +153,19 @@ done
 ```bash
 mkdir BASECALLED_NANOPORE
 
-curl $FTP_PATH > BASECALLED_NANOPORE/m11216.NANOPORE.fastq.gz
-curl $FTP_PATH > BASECALLED_NANOPORE/m12208.NANOPORE.fastq.gz
+fasterq-dump ERR5000342 \
+             --outdir BASECALLED_NANOPORE \
+             --threads $NTHREADS
+
+fasterq-dump ERR5000343 \
+             --outdir BASECALLED_NANOPORE \
+             --threads $NTHREADS
+
+gzip BASECALLED_NANOPORE/ERR5000342.fastq
+gzip BASECALLED_NANOPORE/ERR5000343.fastq
+
+mv BASECALLED_NANOPORE/ERR5000342.fastq.gz BASECALLED_NANOPORE/m11216.fastq.gz
+mv BASECALLED_NANOPORE/ERR5000342.fastq.gz BASECALLED_NANOPORE/m12208.fastq.gz
 ```
 
 ### Trim adapters with Porechop

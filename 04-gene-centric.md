@@ -11,11 +11,11 @@ mkdir GENE_CENTRIC/COVERM
 
 for ASSEMBLY in UPLAND_CO FEN_CO M11216_NANO M12208_NANO; do
   if [[ $ASSEMBLY == 'UPLAND_CO' ]]; then
-    SAMPLES=`awk -F '\t' '{if ($5 == "upland") {print $1}}' sample_metadata.tsv | uniq`
+    SAMPLES=`awk -F '\t' '{if ($4 == "upland") {print $1}}' sample_metadata.tsv | uniq`
   fi
 
   if [[ $ASSEMBLY == 'FEN_CO' ]]; then
-    SAMPLES=`awk -F '\t' '{if ($5 == "fen") {print $1}}' sample_metadata.tsv | uniq`
+    SAMPLES=`awk -F '\t' '{if ($4 == "fen") {print $1}}' sample_metadata.tsv | uniq`
   fi
 
   R1=`printf '%s\n' $SAMPLES | awk -v ORS=" " '{print "POOLED_ILLUMINA/" $0 ".R1.fastq"}' | sed 's/$/\n/'`
