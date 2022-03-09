@@ -14,10 +14,18 @@ After quality control, we will merge the files from the same sample.
 ```bash
 mkdir RAW_ILLUMINA
 
-while read SAMPLE RUN R1_FTP_PATH R2_FTP_PATH; do
-  curl $R1_FTP_PATH > RAW_ILLUMINA/$SAMPLE.$RUN.R1.fastq.gz
-  curl $R2_FTP_PATH > RAW_ILLUMINA/$SAMPLE.$RUN.R2.fastq.gz
-done < <(cut -f 1-4 sample_metadata.tsv | sed '1d')
+while read SAMPLE RUN RUNID; do
+  fasterq-dump $RUNID \
+               --outdir RAW_ILLUMINA \
+               --threads $NTHREADS \
+               --split-files
+
+  gzip RAW_ILLUMINA"$RUNID"_1.fastq
+  gzip RAW_ILLUMINA"$RUNID"_2.fastq
+
+  mv RAW_ILLUMINA"$RUNID"_1.fastq.gz RAW_ILLUMINA$SAMPLE.$RUN.R1.fastq.gz
+  mv RAW_ILLUMINA"$RUNID"_1.fastq.gz RAW_ILLUMINA$SAMPLE.$RUN.R2.fastq.gz
+done < <(cut -f 1-3 sample_metadata.tsv | sed '1d')
 ```
 
 ### Check raw data with fastQC and multiQC

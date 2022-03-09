@@ -1,5 +1,7 @@
 # Kilpisjarvi-MAGs
 
+![Kilpisjarvi MAGs](kilpisjarvi-MAGs.png)
+
 Bioinformatics workflow used in the article:
 
 > Pessi IS, Viitamäki S, Virkkala A-M, Eronen-Rasimus E, Delmont TO, Marushchak ME, Luoto M, Hultman J. 2021. Truncated denitrifiers dominate the denitrification pathway in tundra soil metagenomes. BioRxiv, doi: [10.1101/2020.12.21.419267](https://doi.org/10.1101/2020.12.21.419267).
@@ -26,6 +28,7 @@ Principal Investigator
 
 ### You will need to have these softwares installed and in your path
 
+* SRA Toolkit v2.11.3: https://github.com/ncbi/sra-tools/
 * fastQC v0.11.9: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/
 * multiQC v1.8: https://multiqc.info/
 * Cutadapt v1.16: https://cutadapt.readthedocs.io/
