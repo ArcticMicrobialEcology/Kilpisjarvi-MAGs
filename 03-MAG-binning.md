@@ -266,4 +266,4 @@ fi
 
 ## Next step
 
-Continue to [gene-centric analyses](04-gene.centric.md).
+Continue to [gene-centric analyses](04-gene-centric.md).

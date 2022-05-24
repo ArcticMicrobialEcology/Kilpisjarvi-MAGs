@@ -1,5 +1,7 @@
 # Working with MAGs
 
+Here you can continue with the MAGs you have binned, or you can download our MAGs [here](https://doi.org/10.6084/m9.figshare.19722505).
+
 ### Import MAGs to anvi'o
 
 ```bash
