@@ -4,7 +4,7 @@
 
 Bioinformatics workflow used in the article:
 
-> Pessi IS, Viitamäki S, Virkkala A-M, Eronen-Rasimus E, Delmont TO, Marushchak ME, Luoto M, Hultman J. 2022. In-depth characterization of denitrifier communities across different soil ecosystems in the tundra. BioRxiv, doi: [10.1101/2020.12.21.419267](https://doi.org/10.1101/2020.12.21.419267).
+> Pessi IS, Viitamäki S, Virkkala A-M, Eronen-Rasimus E, Delmont TO, Marushchak ME, Luoto M, Hultman J. 2022. In-depth characterization of denitrifier communities across different soil ecosystems in the tundra. Environmental Microbiome 17: 30. doi: [10.1186/s40793-022-00424-2](https://doi.org/10.1186/s40793-022-00424-2).
 
 ## Contacts
 
